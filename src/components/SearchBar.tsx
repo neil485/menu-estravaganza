@@ -11,7 +11,7 @@ export default function SearchBar({ query, onChange }: SearchBarProps) {
           type="text"
           value={query}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Buscar en el men\u00FA..."
+          placeholder="Buscar en el menú..."
           className="w-full px-4 py-2.5 pl-10 rounded-xl border border-brand-cream-dark dark:border-brand-brown/50 bg-white dark:bg-[#2a1f0e] text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-neutral-600 focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary outline-none transition-colors text-sm"
         />
         <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
