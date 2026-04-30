@@ -6,6 +6,7 @@ export interface MenuItem {
   category: string;
   note?: string;
   image?: string;
+  subcategory?: string;
 }
 
 export interface FlatMenuItem {
@@ -17,6 +18,7 @@ export interface FlatMenuItem {
   note?: string;
   sizeLabel?: string;
   image?: string;
+  subcategory?: string;
 }
 
 export interface Category {

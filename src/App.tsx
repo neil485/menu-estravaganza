@@ -15,7 +15,8 @@ import { categories, menuItems } from './data/menuData';
 import type { FlatMenuItem } from './types/menu';
 
 const categoryNotes: Record<string, string> = {
-  desayunos: 'Todos los desayunos incluyen cafe',
+  desayunos: 'Todos los desayunos incluyen café',
+  'platos-fuertes': 'Todos los platos incluyen tortillas',
 };
 
 function flattenItems(categoryId: string): FlatMenuItem[] {
@@ -29,6 +30,7 @@ function flattenItems(categoryId: string): FlatMenuItem[] {
       category: item.category,
       note: item.note,
       image: item.image,
+      subcategory: item.subcategory,
     }));
 }
 
@@ -41,6 +43,7 @@ function flattenAllItems(): FlatMenuItem[] {
     category: item.category,
     note: item.note,
     image: item.image,
+    subcategory: item.subcategory,
   }));
 }
 
