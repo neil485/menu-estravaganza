@@ -2,7 +2,6 @@ import { useState } from 'react';
 import type { FlatMenuItem } from '../types/menu';
 import MenuCard from './MenuCard';
 import ItemDetailModal from './ItemDetailModal';
-import { useTier } from '../context/TierContext';
 
 interface MenuGridProps {
   items: FlatMenuItem[];
@@ -11,10 +10,9 @@ interface MenuGridProps {
 }
 
 export default function MenuGrid({ items, categoryName, categoryNote }: MenuGridProps) {
-  const { tierConfig } = useTier();
   const [selectedItem, setSelectedItem] = useState<FlatMenuItem | null>(null);
 
-  // Agrupar por subcategoría si existe
+  // Agrupar por subcategoria si existe
   const hasSubcategories = items.some((item) => item.subcategory);
 
   const grouped = hasSubcategories
@@ -50,15 +48,13 @@ export default function MenuGrid({ items, categoryName, categoryNote }: MenuGrid
               <MenuCard
                 key={item.id}
                 item={item}
-                onClick={tierConfig.showItemModal ? () => setSelectedItem(item) : undefined}
+                onClick={() => setSelectedItem(item)}
               />
             ))}
           </div>
         </div>
       ))}
-      {tierConfig.showItemModal && (
-        <ItemDetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
-      )}
+      <ItemDetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
     </section>
   );
 }

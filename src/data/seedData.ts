@@ -1,0 +1,135 @@
+import type { Table, Order } from '../types/restaurant';
+
+export const initialTables: Table[] = [
+  // Salon (5 mesas)
+  { id: 1, label: 'S1', seats: 4, zone: 'salon', status: 'occupied', x: 0, y: 0 },
+  { id: 2, label: 'S2', seats: 4, zone: 'salon', status: 'available', x: 1, y: 0 },
+  { id: 3, label: 'S3', seats: 6, zone: 'salon', status: 'available', x: 2, y: 0 },
+  { id: 4, label: 'S4', seats: 2, zone: 'salon', status: 'reserved', x: 0, y: 1 },
+  { id: 5, label: 'S5', seats: 4, zone: 'salon', status: 'available', x: 1, y: 1 },
+  // Terraza (3 mesas)
+  { id: 6, label: 'T1', seats: 4, zone: 'terraza', status: 'occupied', x: 0, y: 0 },
+  { id: 7, label: 'T2', seats: 6, zone: 'terraza', status: 'available', x: 1, y: 0 },
+  { id: 8, label: 'T3', seats: 4, zone: 'terraza', status: 'available', x: 2, y: 0 },
+  // Barra (2 mesas)
+  { id: 9, label: 'B1', seats: 2, zone: 'barra', status: 'available', x: 0, y: 0 },
+  { id: 10, label: 'B2', seats: 2, zone: 'barra', status: 'available', x: 1, y: 0 },
+];
+
+export const initialOrders: Order[] = [
+  {
+    id: 'ord-001',
+    orderNumber: 1,
+    tableId: 1,
+    items: [
+      { menuItemId: 'des-huevos-rancheros', name: 'Huevos Rancheros', quantity: 2, unitPrice: 5.00 },
+      { menuItemId: 'bh-naranja', name: 'Jugo de Naranja', quantity: 2, unitPrice: 2.00 },
+    ],
+    status: 'preparing',
+    createdAt: new Date(Date.now() - 20 * 60000),
+    updatedAt: new Date(Date.now() - 15 * 60000),
+    waiterName: 'Carlos',
+    total: 14.00,
+  },
+  {
+    id: 'ord-002',
+    orderNumber: 2,
+    tableId: 6,
+    items: [
+      { menuItemId: 'mar-delicias', name: 'Delicias del Mar', quantity: 1, unitPrice: 9.00 },
+      { menuItemId: 'pas-alfredo', name: 'La Creme Alfredo', quantity: 1, unitPrice: 8.25 },
+      { menuItemId: 'bh-limonada-menta', name: 'Limonada con Menta', quantity: 2, unitPrice: 2.25 },
+    ],
+    status: 'pending',
+    createdAt: new Date(Date.now() - 5 * 60000),
+    updatedAt: new Date(Date.now() - 5 * 60000),
+    waiterName: 'Maria',
+    total: 21.75,
+  },
+  {
+    id: 'ord-003',
+    orderNumber: 3,
+    tableId: 1,
+    items: [
+      { menuItemId: 'ham-extravaganza', name: 'Extravaganza Burguer', quantity: 3, unitPrice: 7.95 },
+      { menuItemId: 'cer-corona', name: 'Corona', quantity: 3, unitPrice: 2.50 },
+    ],
+    status: 'delivered',
+    createdAt: new Date(Date.now() - 90 * 60000),
+    updatedAt: new Date(Date.now() - 60 * 60000),
+    waiterName: 'Carlos',
+    total: 31.35,
+  },
+  {
+    id: 'ord-004',
+    orderNumber: 4,
+    tableId: 3,
+    items: [
+      { menuItemId: 'des-tipico', name: 'Desayuno Tipico', quantity: 2, unitPrice: 4.50 },
+      { menuItemId: 'bh-cafe', name: 'Cafe Americano', quantity: 2, unitPrice: 1.50 },
+    ],
+    status: 'delivered',
+    createdAt: new Date(Date.now() - 180 * 60000),
+    updatedAt: new Date(Date.now() - 150 * 60000),
+    waiterName: 'Carlos',
+    total: 12.00,
+  },
+  {
+    id: 'ord-005',
+    orderNumber: 5,
+    tableId: 7,
+    items: [
+      { menuItemId: 'car-churrasco', name: 'Churrasco Argentino', quantity: 1, unitPrice: 12.00 },
+      { menuItemId: 'cer-modelo', name: 'Modelo Especial', quantity: 2, unitPrice: 2.75 },
+      { menuItemId: 'pos-flan', name: 'Flan de Caramelo', quantity: 1, unitPrice: 3.50 },
+    ],
+    status: 'delivered',
+    createdAt: new Date(Date.now() - 120 * 60000),
+    updatedAt: new Date(Date.now() - 100 * 60000),
+    waiterName: 'Maria',
+    total: 21.00,
+  },
+  {
+    id: 'ord-006',
+    orderNumber: 6,
+    tableId: 9,
+    items: [
+      { menuItemId: 'cer-corona', name: 'Corona', quantity: 4, unitPrice: 2.50 },
+      { menuItemId: 'ent-nachos', name: 'Nachos Supremos', quantity: 1, unitPrice: 6.00 },
+    ],
+    status: 'cancelled',
+    createdAt: new Date(Date.now() - 60 * 60000),
+    updatedAt: new Date(Date.now() - 55 * 60000),
+    waiterName: 'Carlos',
+    total: 16.00,
+  },
+  {
+    id: 'ord-007',
+    orderNumber: 7,
+    tableId: 5,
+    items: [
+      { menuItemId: 'mar-camarones', name: 'Camarones al Ajillo', quantity: 2, unitPrice: 10.50 },
+      { menuItemId: 'bh-limonada-menta', name: 'Limonada con Menta', quantity: 2, unitPrice: 2.25 },
+    ],
+    status: 'ready',
+    createdAt: new Date(Date.now() - 30 * 60000),
+    updatedAt: new Date(Date.now() - 10 * 60000),
+    waiterName: 'Maria',
+    total: 25.50,
+  },
+  {
+    id: 'ord-008',
+    orderNumber: 8,
+    tableId: 2,
+    items: [
+      { menuItemId: 'pas-bolognesa', name: 'Spaghetti Bolognesa', quantity: 2, unitPrice: 7.50 },
+      { menuItemId: 'ens-cesar', name: 'Ensalada Cesar', quantity: 1, unitPrice: 5.00 },
+      { menuItemId: 'bh-naranja', name: 'Jugo de Naranja', quantity: 3, unitPrice: 2.00 },
+    ],
+    status: 'delivered',
+    createdAt: new Date(Date.now() - 150 * 60000),
+    updatedAt: new Date(Date.now() - 130 * 60000),
+    waiterName: 'Carlos',
+    total: 26.00,
+  },
+];
