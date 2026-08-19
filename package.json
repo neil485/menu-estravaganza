@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "remotion:dev": "npx remotion studio remotion/src/Root.tsx --public-dir=remotion/public --config=remotion/remotion.config.ts",
+    "remotion:render": "npx remotion render remotion/src/Root.tsx ExtravaganzaShowcase out/showcase.mp4 --public-dir=remotion/public --config=remotion/remotion.config.ts",
+    "remotion:render:mobile": "npx remotion render remotion/src/Root.tsx ExtravaganzaShowcaseMobile out/showcase-mobile.mp4 --public-dir=remotion/public --config=remotion/remotion.config.ts",
+    "screenshots": "npx tsx scripts/capture-screenshots.ts",
+    "video": "npm run screenshots && npm run remotion:render"
   },
   "dependencies": {
     "react": "^19.2.5",
@@ -17,6 +22,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@remotion/cli": "^4.0.513",
     "@tailwindcss/vite": "^4.2.4",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
@@ -26,7 +32,10 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "playwright": "^1.62.1",
+    "remotion": "^4.0.513",
     "tailwindcss": "^4.2.4",
+    "tsx": "^4.23.12",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.10"

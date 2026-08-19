@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #0a0a0a;
+  font-family: 'Raleway', sans-serif;
+}
+
+:root {
+  --brand-gold: #c9a96e;
+  --brand-dark: #1a1a2e;
+  --brand-darker: #0a0a0a;
+  --brand-cream: #f5f0e8;
+}
