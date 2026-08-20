@@ -2,8 +2,8 @@ import { useRestaurant } from '../../context/RestaurantContext';
 import DashboardStats from './DashboardStats';
 import OrdersTable from './OrdersTable';
 import InventoryView from './InventoryView';
-import RevenueChart from './RevenueChart';
 import TableManagement from './TableManagement';
+import AdminModules from './AdminModules';
 import DailySummary from './DailySummary';
 import type { TableStatus } from '../../types/restaurant';
 
@@ -62,7 +62,7 @@ export default function AdminPanel() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InventoryView />
-          <RevenueChart orders={state.orders} />
+          <AdminModules />
         </div>
       </div>
     </div>

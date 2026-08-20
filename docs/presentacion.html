@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Extravaganza - Sistema de Gestion Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Raleway', sans-serif;
+    background: #1a1a2e;
+    color: #f5f0e8;
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .slide {
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
+    padding: 50px 60px 70px;
+    position: relative;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slide.active { display: flex; }
+
+  /* Portada */
+  .slide-portada {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    text-align: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .slide-portada h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.8em, 6vw, 3.5em);
+    color: #c9a96e;
+    margin-bottom: 15px;
+    letter-spacing: 3px;
+  }
+
+  .slide-portada h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.1em, 3.5vw, 1.8em);
+    color: #f5f0e8;
+    font-weight: 300;
+    margin-bottom: 30px;
+  }
+
+  .slide-portada .divider {
+    width: 100px;
+    height: 3px;
+    background: #c9a96e;
+    margin: 0 auto 25px;
+  }
+
+  .slide-portada .subtitle {
+    font-size: clamp(0.85em, 2.5vw, 1.1em);
+    color: #999;
+    letter-spacing: 1px;
+  }
+
+  /* Content slides */
+  .slide-content {
+    background: #f5f0e8;
+    color: #2d2d2d;
+    align-items: flex-start;
+  }
+
+  .slide-content h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.3em, 4vw, 2.2em);
+    color: #1a1a2e;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #c9a96e;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .slide-content h3 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.95em, 2.5vw, 1.2em);
+    color: #c9a96e;
+    margin: 12px 0 6px;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    width: 100%;
+    flex: 1;
+    align-items: center;
+  }
+
+  .content-grid.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .content-text ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .content-text ul li {
+    padding: 4px 0;
+    font-size: clamp(0.8em, 2vw, 1.05em);
+    line-height: 1.45;
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .content-text ul li::before {
+    content: "\25C6";
+    color: #c9a96e;
+    position: absolute;
+    left: 0;
+    font-size: 0.65em;
+    top: 8px;
+  }
+
+  .screenshot {
+    width: 100%;
+    max-height: 50vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  }
+
+  .screenshot-small {
+    width: 100%;
+    max-height: 35vh;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  .admin-caption {
+    font-size: clamp(0.75em, 1.8vw, 0.9em);
+    color: #666;
+  }
+
+  /* Modules overview */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+    flex: 1;
+    align-content: center;
+  }
+
+  .module-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    border-left: 4px solid #c9a96e;
+  }
+
+  .module-card h3 {
+    font-family: 'Cinzel', serif;
+    color: #1a1a2e;
+    font-size: clamp(0.9em, 2.5vw, 1.2em);
+    margin-bottom: 6px;
+  }
+
+  .module-card p {
+    color: #666;
+    line-height: 1.5;
+    font-size: clamp(0.75em, 1.8vw, 0.95em);
+  }
+
+  /* Roadmap */
+  .roadmap {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .phase {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .phase-number {
+    background: #1a1a2e;
+    color: #c9a96e;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1em, 3vw, 1.4em);
+    font-weight: 700;
+    min-width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .phase-content h3 {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+
+  .phase-content p {
+    color: #666;
+    line-height: 1.4;
+    font-size: clamp(0.8em, 1.8vw, 0.95em);
+  }
+
+  .phase.current {
+    border: 2px solid #c9a96e;
+  }
+
+  /* Cierre */
+  .slide-cierre {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    text-align: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .slide-cierre h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.8em, 6vw, 2.8em);
+    color: #c9a96e;
+    margin-bottom: 25px;
+    border: none;
+  }
+
+  .slide-cierre p {
+    font-size: clamp(1em, 3vw, 1.3em);
+    color: #ccc;
+    margin-bottom: 10px;
+  }
+
+  .slide-cierre .location {
+    font-size: clamp(0.85em, 2.5vw, 1em);
+    color: #888;
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+
+  .nav button {
+    background: rgba(26, 26, 46, 0.85);
+    color: #c9a96e;
+    border: 2px solid #c9a96e;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav button:hover,
+  .nav button:active {
+    background: #c9a96e;
+    color: #1a1a2e;
+  }
+
+  .slide-counter {
+    position: fixed;
+    bottom: 20px;
+    left: 15px;
+    font-size: 0.85em;
+    color: #999;
+    z-index: 100;
+  }
+
+  /* ===================== MOBILE ===================== */
+  @media (max-width: 768px) {
+    .slide {
+      padding: 25px 20px 65px;
+    }
+
+    .slide-portada {
+      padding-top: 0;
+    }
+
+    .slide-content h2 {
+      margin-bottom: 15px;
+    }
+
+    /* Stack grids to single column */
+    .content-grid,
+    .content-grid.three-col {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    /* On mobile, put screenshot first (above text), text collapses below */
+    .content-grid > .content-text {
+      order: 2;
+    }
+    .content-grid > div:not(.content-text) {
+      order: 1;
+    }
+
+    .screenshot {
+      max-height: 55vh;
+      width: 100%;
+    }
+
+    .screenshot-crop {
+      object-fit: cover;
+      object-position: center 25%;
+      height: 50vh;
+      max-height: 50vh;
+    }
+
+    .screenshot-small {
+      max-height: 40vh;
+      width: 100%;
+    }
+
+    /* Modules: stack to single column */
+    .modules-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      align-content: start;
+      flex: 0;
+    }
+
+    .module-card {
+      padding: 14px 16px;
+    }
+
+    /* Admin modules grid: 2 columns on mobile for compactness */
+    .modules-grid[style*="flex:0"] {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .modules-grid[style*="flex:0"] .module-card {
+      padding: 10px 12px;
+    }
+
+    .modules-grid[style*="flex:0"] .module-card p {
+      font-size: 0.7em;
+      line-height: 1.3;
+    }
+
+    /* Roadmap */
+    .roadmap {
+      gap: 10px;
+      justify-content: flex-start;
+    }
+
+    .phase {
+      padding: 12px 14px;
+      gap: 10px;
+    }
+
+    .phase-number {
+      min-width: 36px;
+      height: 36px;
+    }
+
+    /* Admin 3-col: show as vertical scroll */
+    .content-grid.three-col {
+      gap: 18px;
+    }
+
+    /* Nav buttons bigger for touch */
+    .nav button {
+      padding: 12px 16px;
+      font-size: 0.9em;
+    }
+  }
+
+  /* Very small phones */
+  @media (max-width: 380px) {
+    .slide {
+      padding: 18px 14px 60px;
+    }
+
+    .module-card {
+      padding: 10px 12px;
+    }
+
+    .module-card p {
+      font-size: 0.7em;
+    }
+
+    .phase {
+      padding: 8px 10px;
+      gap: 8px;
+    }
+
+    /* Admin modules: single column on very small phones */
+    .modules-grid[style*="flex:0"] {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Landscape mobile */
+  @media (max-height: 500px) {
+    .slide {
+      padding: 15px 30px 55px;
+    }
+
+    .slide-portada h1 {
+      margin-bottom: 8px;
+    }
+
+    .slide-portada h2 {
+      margin-bottom: 15px;
+    }
+
+    .slide-portada .divider {
+      margin-bottom: 12px;
+    }
+
+    .content-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .content-grid > .content-text { order: 0; }
+    .content-grid > .content-text ~ div { order: 0; }
+
+    .screenshot {
+      max-height: 40vh;
+    }
+
+    .modules-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .module-card { padding: 10px 12px; }
+
+    .roadmap { gap: 6px; }
+    .phase { padding: 8px 12px; }
+  }
+
+  /* Slide transition */
+  .slide {
+    animation: fadeIn 0.25s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes radial-expand {
+    0% {
+      opacity: 0.6;
+      transform: translate(-50%, -50%) scale(0.3);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(4);
+    }
+  }
+
+  .gold-shimmer {
+    background: linear-gradient(
+      90deg,
+      #c9a96e 0%,
+      #f5e6a3 25%,
+      #fff8dc 50%,
+      #f5e6a3 75%,
+      #c9a96e 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+    position: relative;
+    z-index: 1;
+  }
+
+  .gold-shimmer::before,
+  .gold-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vw;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(201,169,110,0.15) 0%, rgba(201,169,110,0.05) 30%, transparent 60%);
+    transform: translate(-50%, -50%) scale(0.3);
+    animation: radial-expand 3.5s ease-out infinite;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .gold-shimmer::after {
+    animation-delay: 1.75s;
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Portada -->
+<div class="slide slide-portada active" id="slide-1">
+  <h1 class="gold-shimmer">Extravaganza</h1>
+  <h2>Restaurant</h2>
+  <div class="divider"></div>
+  <p class="subtitle">Sistema de Gestion ERP</p>
+  <br>
+  <p class="subtitle">Corinto Morazán, El Salvador &mdash; Agosto 2026</p>
+</div>
+
+<!-- Slide 2: Resumen -->
+<div class="slide slide-content" id="slide-2">
+  <h2>El Sistema</h2>
+  <div class="modules-grid">
+    <div class="module-card">
+      <h3>Menu Digital</h3>
+      <p>Menú Digital. Accesible desde cualquier dispositivo sin necesidad de registro. Con imagenes, Modo claro/oscuro y reservaciones via WhatsApp.</p>
+    </div>
+    <div class="module-card">
+      <h3>Autenticacion</h3>
+      <p>Control de acceso con 3 roles: Mesero, Cocina y Administrador. Cada rol accede unicamente a las herramientas de su funcion.</p>
+    </div>
+    <div class="module-card">
+      <h3>Panel de Mesero</h3>
+      <p>Mapa interactivo de mesas y zonas. Creador de ordenes digital con envio directo a cocina.</p>
+    </div>
+    <div class="module-card">
+      <h3>Panel de Cocina</h3>
+      <p>Tablero Kanban para seguimiento de ordenes: Pendiente, Preparando y Listo. Avance con un click.</p>
+    </div>
+    <div class="module-card">
+      <h3>Panel de Admin</h3>
+      <p>8 widget en tiempo real, tabla de ordenes, gestion de mesas, inventario, resumen diario y grafica de ventas.</p>
+    </div>
+    <div class="module-card">
+      <h3>Beneficios</h3>
+      <p>Eliminacion de errores, visibilidad en tiempo real, experiencia moderna para el cliente y base para escalar a la nube.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Menu Digital -->
+<div class="slide slide-content" id="slide-3">
+  <h2>Menu Digital</h2>
+  <div class="content-grid">
+    <div class="content-text">
+      <ul>
+        <li><strong>Capacidad hasta para 100 platillos</strong> en 25 categorias</li>
+        <li>Busqueda en tiempo real por nombre</li>
+        <li>Modo claro y oscuro</li>
+        <li>Detalle de platillos con modal mostrando la imagen</li>
+        <li>Notas por categoria (incluye cafe, tortillas, etc.)</li>
+        <li>Reservaciones directas via WhatsApp</li>
+        <li>Boton flotante de WhatsApp</li>
+        <li>Accesible desde celular, tablet o PC</li>
+      </ul>
+    </div>
+    <div>
+      <img src="img/menu-hero.png" alt="Menu Digital" class="screenshot">
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Autenticacion -->
+<div class="slide slide-content" id="slide-4">
+  <h2>Autenticacion</h2>
+  <div class="content-grid">
+    <div class="content-text">
+      <h3>3 Roles del Sistema</h3>
+      <ul>
+        <li><strong>Mesero</strong> &mdash; Acceso al mapa de mesas y creador de ordenes</li>
+        <li><strong>Cocina</strong> &mdash; Acceso al tablero de preparacion de ordenes</li>
+        <li><strong>Administrador</strong> &mdash; Acceso completo: administracion, reportes, inventario y gestion</li>
+      </ul>
+      <h3>Acceso Publico</h3>
+      <ul>
+        <li>El menu digital no requiere inicio de sesion</li>
+        <li>Cualquier cliente puede explorar el menú Digital</li>
+      </ul>
+    </div>
+    <div>
+      <img src="img/login.png" alt="Pantalla de Login" class="screenshot screenshot-crop">
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Panel Mesero -->
+<div class="slide slide-content" id="slide-5">
+  <h2>Panel de Mesero</h2>
+  <div class="content-grid">
+    <div class="content-text">
+      <h3>Mapa de Mesas</h3>
+      <ul>
+        <li>Vision de mesas y zonas.</li>
+        <li>Estados: Disponible, Ocupada, Reservada</li>
+        <li>Colores intuitivos (verde, rojo, amarillo)</li>
+      </ul>
+      <h3>Ordenes</h3>
+      <ul>
+        <li>Creador de ordenes con selector de platillos</li>
+        <li>Envio directo al panel de cocina</li>
+        <li>Lista de ordenes activas con estado</li>
+      </ul>
+    </div>
+    <div>
+      <img src="img/mesero-mapa.png" alt="Mapa de Mesas" class="screenshot">
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Panel Cocina -->
+<div class="slide slide-content" id="slide-6">
+  <h2>Panel de Cocina</h2>
+  <div class="content-grid">
+    <div class="content-text">
+      <h3>Tablero Kanban</h3>
+      <ul>
+        <li><strong>Pendiente</strong> &mdash; Ordenes recien recibidas</li>
+        <li><strong>Preparando</strong> &mdash; En preparacion activa</li>
+        <li><strong>Listo</strong> &mdash; Terminadas, listas para servir</li>
+      </ul>
+      <h3>Funcionalidades</h3>
+      <ul>
+        <li>Tickets con mesa, items y tiempo transcurrido</li>
+        <li>Animacion visual para ordenes nuevas</li>
+        <li>Avance de estado con un solo click</li>
+        <li>Actualizacion en tiempo real</li>
+        <li>Ordenes ordenadas por tiempo de llegada</li>
+        <li>acceso a lista de ingredientes en caso de olvidar el platillo</li>
+      </ul>
+    </div>
+    <div>
+      <img src="img/cocina.png" alt="Panel de Cocina" class="screenshot">
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Panel Admin -->
+<div class="slide slide-content" id="slide-7">
+  <h2>Panel de Administracion</h2>
+  <div class="content-grid three-col">
+    <div>
+      <img src="img/admin-kpis.png" alt="Dashboard KPIs" class="screenshot-small">
+      <h3>Dashboard</h3>
+      <p class="admin-caption">8 widget en tiempo real: ordenes, mesas, ventas.</p>
+    </div>
+    <div>
+      <img src="img/admin-ordenes.png" alt="Tabla de Ordenes" class="screenshot-small">
+      <h3>Ordenes</h3>
+      <p class="admin-caption">Tabla con filtros por estado y detalle expandible por orden</p>
+    </div>
+    <div>
+      <img src="img/admin-mesas.png" alt="Gestion de Mesas" class="screenshot-small">
+      <h3>Mesas e Inventario</h3>
+      <p class="admin-caption">Gestion por zona, resumen diario, inventario con alertas</p>
+    </div>
+  </div>
+
+  <h3 style="width:100%;margin-top:20px;">Modulos del Sistema</h3>
+  <div class="modules-grid" style="flex:0;margin-top:8px;">
+    <div class="module-card">
+      <h3>&#129706; Gestion de Mesas</h3>
+      <p>Agregar y eliminar mesas. Configurar zonas y capacidad. Asignar meseros por zona.</p>
+    </div>
+    <div class="module-card">
+      <h3>&#127869;&#65039; Gestion de Platillos</h3>
+      <p>Crear y editar platillos. Subir fotografias. Configurar precios y variantes.</p>
+    </div>
+    <div class="module-card">
+      <h3>&#128230; Gestion de Inventario</h3>
+      <p>Control de stock en tiempo real. Alertas de inventario bajo. Registro de entradas y salidas.</p>
+    </div>
+    <div class="module-card">
+      <h3>&#128241; Gestion de Menu Digital</h3>
+      <p>Editar categorias y orden. Activar y desactivar platillos.</p>
+    </div>
+    <div class="module-card">
+      <h3>&#128101; Gestion de Usuarios</h3>
+      <p>Crear cuentas de empleados. Asignar roles y permisos. Historial de actividad por usuario.</p>
+    </div>
+    <div class="module-card">
+      <h3>&#128200; Modulo de Contabilidad</h3>
+      <p>Registro de ingresos y egresos. Reportes financieros diarios y mensuales. Control de costos y utilidades.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Slide 9: Cierre -->
+<div class="slide slide-cierre" id="slide-9">
+  <h2 class="gold-shimmer">Extravaganza</h2>
+  <div class="divider" style="width:100px;height:3px;background:#c9a96e;margin:0 auto 30px;"></div>
+  <p>Gracias por su tiempo</p>
+  <br>
+  <p class="location">Josue Ramos Dev</p>
+</div>
+
+<!-- Navigation -->
+<div class="slide-counter">
+  <span id="current-slide">1</span> / <span id="total-slides">9</span>
+</div>
+
+<div class="nav">
+  <button onclick="prevSlide()" aria-label="Anterior">&#9664;</button>
+  <button onclick="nextSlide()" aria-label="Siguiente">&#9654;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+
+  function showSlide(index) {
+    if (index === current) return;
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(index, slides.length - 1));
+    slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
+    document.getElementById('current-slide').textContent = current + 1;
+  }
+
+  function nextSlide() { showSlide(current + 1); }
+  function prevSlide() { showSlide(current - 1); }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      prevSlide();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      showSlide(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      showSlide(slides.length - 1);
+    }
+  });
+
+  // Swipe navigation for touch devices
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+    // Only trigger if horizontal swipe is dominant and > 50px
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx < 0) nextSlide();
+      else prevSlide();
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>

@@ -63,7 +63,15 @@ export default function LandingPage() {
         ))}
       </div>
 
-      <p className="mt-12 text-xs text-brand-brown/40 dark:text-brand-cream/30">
+      <button
+        onClick={() => navigate('/login')}
+        className="mt-10 px-6 py-2.5 rounded-lg border border-brand-primary/30 text-sm font-heading text-brand-primary
+          hover:bg-brand-primary hover:text-white transition-all duration-200 cursor-pointer"
+      >
+        Iniciar Sesion
+      </button>
+
+      <p className="mt-6 text-xs text-brand-brown/40 dark:text-brand-cream/30">
         Demo de Sistema de Extravaganza Restaurant
       </p>
     </div>
